@@ -71,9 +71,17 @@ for (compare_dex in 1:length(comparisons)) {
       effect_hist <- hist(effect_dist[,col_num], plot=F, breaks=10)
       plot(effect_hist, col = rgb(173,216,230, max = 255, alpha = 80, names = "lt.blue"),
            main=paste0("begin_day: ", colnames(null_dist)[col_num], "; end_day: ", as.numeric(colnames(null_dist)[col_num]) + 13),
-           xlim=c(-6, 6))
+           xlim=c(-6, 6), xlab="ln((I_(t+1, Treatment) + 1) / (I_(t+1, Control) + 1))")
       plot(null_hist, col = rgb(255,192,203, max = 255, alpha = 80, names = "lt.pink"),
            add = TRUE)
+      legend("topright", 
+             c(paste0("Treat. eff.=", true_effect_size), "Treat. eff.=0.0"),
+             lty=c(1, 1),
+             col=c(rgb(173,216,230, max = 255, alpha = 80, names = "lt.blue"),
+                   rgb(255,192,203, max = 255, alpha = 80, names = "lt.pink")), 
+             text.width=2,
+             cex=0.4,
+             pch=19)
     }
   }
   dev.off()
