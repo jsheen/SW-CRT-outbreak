@@ -50,14 +50,12 @@ create_two_week_distribution <- function(param_vec) {
 }
 
 
-
 # Look at log(B_T / B_C) statistic ---------------------------------------------
 for (compare_dex in 1:length(comparisons)) {
   print(paste0("Param set: ", comparisons[[compare_dex]][[1]]))
   effect_dist <- create_two_week_distribution(comparisons[[compare_dex]][[1]])
   null_dist <- create_two_week_distribution(comparisons[[compare_dex]][[2]])
   
-  print(paste0("Diff. N obs: ", sum(!is.na(effect_dist)) - sum(!is.na(null_dist))))
   propRecruit <- comparisons[[compare_dex]][[1]][1]
   ncomm <- comparisons[[compare_dex]][[1]][2]
   true_beta <- comparisons[[compare_dex]][[1]][3]
@@ -67,13 +65,14 @@ for (compare_dex in 1:length(comparisons)) {
   # the effect distribution ----------------------------------------------------
   pdf(file=paste0("~/SW-CRT-outbreak/NPI_study/code_output/plots/two_weeks/",
                   propRecruit, "_", ncomm, "_", true_beta, "_", true_effect_size, ".pdf"),
-      width=20, height=15)
+      width=5, height=5)
   for (col_num in 1:ncol(null_dist)) {
     if (!all(is.na(null_dist[,col_num])) & !all(is.na(effect_dist[,col_num]))) {
       null_hist <- hist(null_dist[,col_num], plot=F)
       effect_hist <- hist(effect_dist[,col_num], plot=F)
       plot(effect_hist, col = rgb(173,216,230, max = 255, alpha = 80, names = "lt.blue"),
-           main=paste0("begin_day: ", colnames(null_dist)[col_num]))
+           main=paste0("begin_day: ", colnames(null_dist)[col_num], "; end_day: ", as.numeric(colnames(null_dist)[col_num]) + 13), 
+           xlim=c(-7, 7))
       plot(null_hist, col = rgb(255,192,203, max = 255, alpha = 80, names = "lt.pink"),
            add = TRUE)
     }
@@ -83,11 +82,11 @@ for (compare_dex in 1:length(comparisons)) {
   # Create histograms of the entire epidemic -----------------------------------
   pdf(file=paste0("~/SW-CRT-outbreak/NPI_study/code_output/plots/full/",
                   propRecruit, "_", ncomm, "_", true_beta, "_", true_effect_size, ".pdf"),
-      width=20, height=15)
+      width=5, height=5)
   null_hist <- hist(unlist(null_dist), plot=F)
   effect_hist <- hist(unlist(effect_dist), plot=F)
   plot(effect_hist, col = rgb(173,216,230, max = 255, alpha = 80, names = "lt.blue"),
-       main="", xlab="ln((I_(t+1, Treatment) + 1) / (I_(t+1, Control) + 1")
+       main="", xlab="ln((I_(t+1, Treatment) + 1) / (I_(t+1, Control) + 1))", xlim=c(-8, 8))
   plot(null_hist, col = rgb(255,192,203, max = 255, alpha = 80, names = "lt.pink"),
        add = TRUE)
   legend("topright", 
@@ -95,7 +94,8 @@ for (compare_dex in 1:length(comparisons)) {
          lty=c(1, 1),
          col=c(rgb(173,216,230, max = 255, alpha = 80, names = "lt.blue"),
                rgb(255,192,203, max = 255, alpha = 80, names = "lt.pink")), 
-         text.width=3,
+         text.width=2,
+         cex=0.4,
          pch=19)
   dev.off()
   
@@ -134,7 +134,6 @@ for (compare_dex in 1:length(comparisons)) {
   effect_dist <- create_log_ratio_final_size_distribution (comparisons[[compare_dex]][[1]])
   null_dist <- create_log_ratio_final_size_distribution (comparisons[[compare_dex]][[2]])
   
-  print(paste0("Diff. N obs: ", sum(!is.na(effect_dist)) - sum(!is.na(null_dist))))
   propRecruit <- comparisons[[compare_dex]][[1]][1]
   ncomm <- comparisons[[compare_dex]][[1]][2]
   true_beta <- comparisons[[compare_dex]][[1]][3]
@@ -142,7 +141,7 @@ for (compare_dex in 1:length(comparisons)) {
   
   pdf(file=paste0("~/SW-CRT-outbreak/NPI_study/code_output/plots/final_size/",
                   propRecruit, "_", ncomm, "_", true_beta, "_", true_effect_size, ".pdf"),
-      width=20, height=15)
+      width=5, height=5)
   null_hist <- hist(null_dist, plot=F)
   effect_hist <- hist(effect_dist, plot=F)
   plot(effect_hist, col = rgb(173,216,230, max = 255, alpha = 80, names = "lt.blue"),
@@ -155,7 +154,8 @@ for (compare_dex in 1:length(comparisons)) {
          lty=c(1, 1),
          col=c(rgb(173,216,230, max = 255, alpha = 80, names = "lt.blue"),
                rgb(255,192,203, max = 255, alpha = 80, names = "lt.pink")), 
-         text.width=3,
+         text.width=2,
+         cex=0.4,
          pch=19)
   dev.off()
 }
