@@ -35,7 +35,7 @@ nsim <- 100 ### Note: if running more than 1, need to save fullRes_SWT separatel
 
 # Population structure parameters:
 # Average size of one community
-ave_community_size <- 100
+ave_community_size <- 40
 # Range of community sizes (sizes are uniformly distributed on this range)
 community_size_range <- 40
 # Number of communities
@@ -52,7 +52,7 @@ beta <- 0.04
 # Expected number of importations to the population over two years
 num_introductions <- 80
 # Leaky multiplicative efficacy of vaccine
-direct_VE <- 0
+direct_VE <- 0.95
 # Gamma-distribution parameters of incubation and infectious period
 incperiod_shape<-5.807 ## Parameters from Lauer et al. 2020
 incperiod_rate<-1/0.948
@@ -67,12 +67,12 @@ trial_length<-308
 
 # General CRT Parameters:
 # Target community enrollment proportion
-cluster_coverage<-0.9
+cluster_coverage<-0.5
 
 # Parallel-Arm CRT Parameters:
 # Number of clusters targeted for enrollment
 # Must be less than or equal to the number of communities
-num_clusters_enrolled_per_day<-100
+num_clusters_enrolled_per_day<-40
 if (num_clusters_enrolled_per_day > num_communities) {stop("Enrolling too many communities!")}
 # Number of days over which subjects are enrolled
 enrollment_period<-1
@@ -280,7 +280,7 @@ network_epidemic<-function(g,beta,num_introductions,VE,
     # and haven't just been infected
     target_cnodes_susc <- setdiff(intersect(connected_nodes,s_nodes),infectees_susc)
     target_cnodes_vacc <- setdiff(intersect(connected_nodes,v_nodes),infectees_vacc)
-    
+
     # Make a vector to represent external infection hazard for each individual
     communities_s <- V(g)[target_cnodes_susc]$community
     communities_v <- V(g)[target_cnodes_vacc]$community
@@ -1018,10 +1018,12 @@ for (sim in 1:nsim) {
                   Data=df, OutMat=OutMat, TypeMat=TypeMat)
   
   print(paste0("Completed Simulation: ",sim))
-  sim_direc <- paste0("~/SW-CRT-outbreak/NPI_study/code_output/csvs/", cluster_coverage,
+  sim_direc <- paste0("~/SW-CRT-outbreak/NPI_study/code_output/csvs/new/", cluster_coverage,
                       "_", num_communities, "_", beta, "_", direct_VE, "/")
   dir.create(file.path(sim_direc))
   write.csv(results, paste0(sim_direc, sim, ".csv" ))
+  write.csv(trial_nodes, paste0(sim_direc, sim, "_trial_nodes.csv" ))
+  write.csv(df, paste0(sim_direc, sim, "_df.csv" ))
 }
 
 Analysis_IRTCRT_Res <- list(beta=beta,pvals=pvals,VEs=VEs,ICCs=ICCs,deffs=deffs,props_zeros=props_zeros,
