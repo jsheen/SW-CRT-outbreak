@@ -1,9 +1,11 @@
 # Import libraries  ------------------------------------------------------------
 
 # Load all combinations of effect sizes to find power --------------------------
-effects <- list(list(0.5, 100, 0.04, 0.95),
-                list(0.9, 40, 0.04, 0.95))
-
+effects <- list(list(0.5, 70, 0.04, 0.95),
+                list(0.7, 70, 0.04, 0.95),
+                list(0.9, 70, 0.04, 0.95),
+                list(0.7, 100, 0.04, 0.95))
+effects <- list(list(0.9, 100, 0.04, 0.8))
 # Algorithm for each effect:
 # 1. For each effect:
 #     1a. Create null distribution
@@ -28,8 +30,8 @@ for (effect in effects) {
   last_null_numerator <- 0
   last_null_denominator <- 0
   for (sim_num in 1:nrow(null_dist)) {
-    print(sim_num)
     if (!grepl("_", null_dist[sim_num,1])) {
+      print(paste0("Numer: ", last_null_numerator, "; Denom: ", last_null_denominator, "; log_ratio: ", log((last_null_numerator + 1) / (last_null_denominator + 1))))
       last_null_numerator <- 0
       last_null_denominator <- 0
       for (node_num in 2:ncol(null_dist)) {
@@ -87,7 +89,7 @@ for (effect in effects) {
       last_effect_numerator <- 0
       last_effect_denominator <- 0
       for (node_num in 2:ncol(effect_dist)) {
-        if (null_dist[sim_num,node_num] != "") {
+        if (effect_dist[sim_num,node_num] != "") {
           node_res <- strsplit(effect_dist[sim_num,node_num], "_")[[1]]
           if (node_res[4] == "1" & (node_res[5] == "E" | node_res[5] == "I")) {
             if (node_res[3] == "1") {
@@ -132,16 +134,15 @@ for (effect in effects) {
   p_val <- log_ratio_null[ceiling(0.05 * 500)]
   log_ratio_effect <- sort(log_ratio_effect)
   num_below <- min(which(log_ratio_effect > p_val))
-  power = (num_below / 500) * 100
+  power <- (num_below / 500) * 100
   print(power)
   
   # Plot -----------------------------------------------------------------------
   null_hist <- hist(log_ratio_null, plot=F, breaks=20)
   effect_hist <- hist(log_ratio_effect, plot=F, breaks=10)
   plot(effect_hist, col = rgb(173,216,230, max = 255, alpha = 80, names = "lt.blue"),
-       main="", xlab="ln((infections_two_weeks_treatment + 1) / (infections_two_weels_control + 1))",
+       main="", xlab="ln((infections_two_weeks_treatment + 1) / (infections_two_weeks_control + 1))",
        xlim=c(min(c(log_ratio_null, log_ratio_effect)), max(c(log_ratio_null, log_ratio_effect))))
   plot(null_hist, col = rgb(255,192,203, max = 255, alpha = 80, names = "lt.pink"),
        add = TRUE)
 }
-

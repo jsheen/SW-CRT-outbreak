@@ -45,15 +45,15 @@ directory_plots = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/"
 """
 
 # Population structure parameters ----------------------------------------------
-num_communities = 40 # Number of communities
-num_clusters_enrolled_per_day = 40 # Num. clusters targeted for enrollment. Must be <= to the number of communities
+num_communities = 100 # Number of communities
+num_clusters_enrolled_per_day = 100 # Num. clusters targeted for enrollment. Must be <= to the number of communities
 ave_community_size = 100 # Average size of one community
 community_size_range = 40 # Range of community sizes (sizes are uniformly distributed on this range)
 rate_within = 0.15 # Probability of an edge between two nodes in the same community
 rate_between = 0 # Probability of an edge between two nodes in different communities
 
 # SEIR epidemic parameters -----------------------------------------------------
-direct_NPIE = 0.95 # Leaky multiplicative efficacy of NPI
+direct_NPIE = 0.8 # Leaky multiplicative efficacy of NPI
 beta = 0.04 # Per-time-step hazard of infection for a susceptible nodes from an infectious neighbour
 NPIE_beta = (1 - direct_NPIE) * beta # Per-time-step hazard of infection for a susceptible NPIE node from an infectious neighbour
 num_introductions = 80 # Expected number of importations to the population over two years
