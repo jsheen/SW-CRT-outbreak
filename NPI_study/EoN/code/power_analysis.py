@@ -14,7 +14,7 @@ Created on Wed Jul  8 11:09:12 2020
 @input:
     effects: list of lists. Each list has parameter information of the effect
              to compare to the null distribution. The naming convention is:
-                 (cluster_coverage)_(num_comm)_(beta)_(direct_NPIE)
+                 (cluster_coverage)_(num_comm)_(beta)_(direct_NPIE)_(ave_comm_size)
 
 @output:
     histogram_comparison: a histogram recording the power, and general 
@@ -31,16 +31,7 @@ input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_rati
 output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_ratios_plot/"
 
 # Prepare list of effects to compare to null distribution ---------------------
-effects = [[0.5, 40, 0.04, 0.95],
-          [0.7, 40, 0.04, 0.95],
-          [0.9, 40, 0.04, 0.95],
-          [0.5, 70, 0.04, 0.95],
-          [0.7, 70, 0.04, 0.95],
-          [0.9, 70, 0.04, 0.95],
-          [0.5, 100, 0.04, 0.95],
-          [0.7, 100, 0.04, 0.95],
-          [0.9, 100, 0.04, 0.95],
-          [0.9, 100, 0.04, 0.8]]
+effects = [[0.9, 40, 0.04, 0.95, 200]]
 
 for effect in effects:
     # Load effect parameters --------------------------------------------------
@@ -48,13 +39,14 @@ for effect in effects:
     num_comm = effect[1]
     beta = effect[2]
     direct_NPIE = effect[3]
+    comm_size = effect[4]
     
     # Load null distribution --------------------------------------------------
-    null_filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(0) + ".csv"
+    null_filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(0) + "_" + str(comm_size) + ".csv"
     null = pd.read_csv(null_filename, sep=',')
     
     # Load effect distribution ------------------------------------------------
-    effect_filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + ".csv"
+    effect_filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + ".csv"
     effect = pd.read_csv(effect_filename, sep=',')
     
     # Get log ratio of number of infections information -----------------------
@@ -81,6 +73,6 @@ for effect in effects:
     power_patch = mpatches.Patch(color='red', linestyle="--", label='power: ' + str(round(power, 2)))
     statistics_patch = mpatches.Patch(color='white', label="median null: " + str(round(np.median(log_ratio_null), 2)) + "\nmedian effect: " + str(round(np.median(log_ratio_effect), 2)))
     plt.legend(loc="upper right", handles=[null_patch, effect_patch, power_patch, statistics_patch], prop={'size': 6})
-    plot_filename = output_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + ".png"
+    plot_filename = output_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + ".png"
     plt.savefig(plot_filename, dpi=1000)
     plt.clf()

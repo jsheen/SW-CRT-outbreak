@@ -33,6 +33,7 @@ from statistics import mean
 
 # Set seed ---------------------------------------------------------------------
 random.seed(0)
+np.random.seed(0)
 
 # Number of simulated trials ---------------------------------------------------
 nsim = 500
@@ -45,15 +46,15 @@ directory_plots = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/"
 """
 
 # Population structure parameters ----------------------------------------------
-num_communities = 100 # Number of communities
-num_clusters_enrolled_per_day = 100 # Num. clusters targeted for enrollment. Must be <= to the number of communities
-ave_community_size = 100 # Average size of one community
+num_communities = 40 # Number of communities
+num_clusters_enrolled_per_day = 40 # Num. clusters targeted for enrollment. Must be <= to the number of communities
+ave_community_size = 300 # Average size of one community
 community_size_range = 40 # Range of community sizes (sizes are uniformly distributed on this range)
 rate_within = 0.15 # Probability of an edge between two nodes in the same community
 rate_between = 0 # Probability of an edge between two nodes in different communities
 
 # SEIR epidemic parameters -----------------------------------------------------
-direct_NPIE = 0.8 # Leaky multiplicative efficacy of NPI
+direct_NPIE = 0.95 # Leaky multiplicative efficacy of NPI
 beta = 0.04 # Per-time-step hazard of infection for a susceptible nodes from an infectious neighbour
 NPIE_beta = (1 - direct_NPIE) * beta # Per-time-step hazard of infection for a susceptible NPIE node from an infectious neighbour
 num_introductions = 80 # Expected number of importations to the population over two years
@@ -534,6 +535,10 @@ if not (path.exists(batch_folder_name)):
     os.mkdir(batch_folder_name)
 
 cumul_to_save_csv = []
+cumul_t = []
+cumul_I = []
+cumul_control = []
+cumul_treatment = []
 for sim_num in range(nsim):
     print('Iteration: ' + str(sim_num))
     # Create trial_network -----------------------------------------------------
@@ -628,6 +633,64 @@ for sim_num in range(nsim):
             unicode_to_add = str(node) + "_" + str(comm_dex) + "_" + str(treated) + "_" + str(enrolled) + "_" + str(status)
             to_save_csv.append(unicode_to_add)
     cumul_to_save_csv.append(to_save_csv)
+
+    # Save the control and treatment time series of infections -----------------
+    control_t_series = []
+    treatment_t_series = []
+    for curr_t in t_first_half:
+        curr_t_control = 0
+        curr_t_treatment = 0
+        status_dict = full_first_half.get_statuses(list(trial_network.nodes()), curr_t)
+        for comm_dex in range(len(communities)):
+            for node in communities[comm_dex].nodes():
+                if status_dict[node] == "I":
+                    if trial_assignment[comm_dex] == 1:
+                        curr_t_treatment += 1
+                    else:
+                        curr_t_control += 1
+        control_t_series.append(curr_t_control)
+        treatment_t_series.append(curr_t_treatment)
+    for curr_t in t_second_half:
+        curr_t_control = 0
+        curr_t_treatment = 0
+        status_dict = full_second_half.get_statuses(list(trial_network.nodes()), curr_t)
+        for comm_dex in range(len(communities)):
+            for node in communities[comm_dex].nodes():
+                if status_dict[node] == "I":
+                    if trial_assignment[comm_dex] == 1:
+                        curr_t_treatment += 1
+                    else:
+                        curr_t_control += 1
+        control_t_series.append(curr_t_control)
+        treatment_t_series.append(curr_t_treatment)
+    cumul_t.append(t)
+    cumul_I.append(I)
+    cumul_control.append(control_t_series)
+    cumul_treatment.append(treatment_t_series)
+
+    # Check that the number of nodes in network is within our expectation ------
+    if (trial_network.number_of_nodes() < ((ave_community_size - (community_size_range / 2)) * num_communities) or
+        trial_network.number_of_nodes() > ((ave_community_size + (community_size_range / 2) + 1) * num_communities)):
+        raise NameError("Number of nodes in network is not within expectation.")
+
+    # Check that the number enrolled is within our expectation -----------------
+    tot_enrolled_participants = 0
+    for enrolled_participant_cc in enrolled_participants:
+        tot_enrolled_participants += len(enrolled_participant_cc)
+    if (tot_enrolled_participants < (cluster_coverage * ((ave_community_size - (community_size_range / 2)) * num_communities))):
+        raise NameError("Number of enrolled participants is too low.")
+    if (tot_enrolled_participants > (cluster_coverage * ((ave_community_size + (community_size_range / 2) + 1) * num_communities))):
+        raise NameError("Number of enrolled participants is too high.")
+
+    # Check that if rate_between == 0, there are no edges between ccs ----------
+    if (rate_between == 0):
+        if len(communities) != nx.number_connected_components(trial_network):
+            raise NameError("Number of ccs not same between network and communities list.")
+        tot_edges_communities = 0
+        for community in communities:
+            tot_edges_communities += community.number_of_edges()
+        if tot_edges_communities != trial_network.number_of_edges():
+            raise NameError("Number of edges between communities and trial network are not same.")
 
 with open(batch_folder_name + "batch_res.csv", 'w') as out_f:
     for l in range(len(cumul_to_save_csv)):
