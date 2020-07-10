@@ -31,7 +31,19 @@ input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_rati
 output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_ratios_plot/"
 
 # Prepare list of effects to compare to null distribution ---------------------
-effects = [[0.9, 40, 0.04, 0.95, 200]]
+effects = [[0.5, 40, 0.04, 0.95, 100],
+           [0.7, 40, 0.04, 0.95, 100],
+           [0.9, 40, 0.04, 0.95, 100],
+           [0.5, 70, 0.04, 0.95, 100],
+           [0.7, 70, 0.04, 0.95, 100],
+           [0.9, 70, 0.04, 0.95, 100],
+           [0.5, 100, 0.04, 0.95, 100],
+           [0.7, 100, 0.04, 0.95, 100],
+           [0.9, 100, 0.04, 0.95, 100],
+           [0.9, 100, 0.04, 0.8, 100],
+           [0.9, 40, 0.04, 0.95, 200],
+           [0.9, 70, 0.04, 0.95, 200],
+           [0.9, 70, 0.04, 0.8, 200]]
 
 for effect in effects:
     # Load effect parameters --------------------------------------------------
@@ -74,5 +86,5 @@ for effect in effects:
     statistics_patch = mpatches.Patch(color='white', label="median null: " + str(round(np.median(log_ratio_null), 2)) + "\nmedian effect: " + str(round(np.median(log_ratio_effect), 2)))
     plt.legend(loc="upper right", handles=[null_patch, effect_patch, power_patch, statistics_patch], prop={'size': 6})
     plot_filename = output_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + ".png"
-    plt.savefig(plot_filename, dpi=1000)
+    plt.savefig(plot_filename, dpi=300)
     plt.clf()
