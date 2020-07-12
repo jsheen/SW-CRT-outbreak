@@ -684,8 +684,6 @@ for sim_num in range(nsim):
 
     # Check that if rate_between == 0, there are no edges between ccs ----------
     if (rate_between == 0):
-        if len(communities) != nx.number_connected_components(trial_network):
-            raise NameError("Number of ccs not same between network and communities list.")
         tot_edges_communities = 0
         for community in communities:
             tot_edges_communities += community.number_of_edges()
