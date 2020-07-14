@@ -46,15 +46,15 @@ directory_plots = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/"
 """
 
 # Population structure parameters ----------------------------------------------
-num_communities = 40 # Number of communities
-num_clusters_enrolled_per_day = 40 # Num. clusters targeted for enrollment. Must be <= to the number of communities
-ave_community_size = 300 # Average size of one community
+num_communities = 70 # Number of communities
+num_clusters_enrolled_per_day = 70 # Num. clusters targeted for enrollment. Must be <= to the number of communities
+ave_community_size = 100 # Average size of one community
 community_size_range = 40 # Range of community sizes (sizes are uniformly distributed on this range)
 rate_within = 0.15 # Probability of an edge between two nodes in the same community
 rate_between = 0 # Probability of an edge between two nodes in different communities
 
 # SEIR epidemic parameters -----------------------------------------------------
-direct_NPIE = 0.95 # Leaky multiplicative efficacy of NPI
+direct_NPIE = 0.8 # Leaky multiplicative efficacy of NPI
 beta = 0.04 # Per-time-step hazard of infection for a susceptible nodes from an infectious neighbour
 NPIE_beta = (1 - direct_NPIE) * beta # Per-time-step hazard of infection for a susceptible NPIE node from an infectious neighbour
 num_introductions = 80 # Expected number of importations to the population over two years
@@ -82,7 +82,7 @@ trial_start_day = 21 # First day of trial enrollment, relative to start of epide
 trial_length = 14 # Days after start to follow up
 
 # General CRT Parameters -------------------------------------------------------
-cluster_coverage = 0.9 # Target community enrollment proportion
+cluster_coverage = 0.5 # Target community enrollment proportion
 
 # Parallel-Arm CRT Parameters --------------------------------------------------
 if (num_clusters_enrolled_per_day > num_communities):
@@ -115,7 +115,7 @@ H.add_node('S_u')
 H.add_node('S_t')
 if speed_up:
     # Rate calculated from mean of extF of single simulation previously run ----
-    background_infected = 100
+    background_infected = 600
     prob_inf_fromsource_u = 1 - np.exp(-5.936761e-07 * background_infected)
     prob_inf_fromsource_t = 1 - np.exp(-(1 - direct_NPIE) * 5.936761e-07 * background_infected)
     H.add_edge('S_u', 'E', rate = prob_inf_fromsource_u, weight_label='susc_u2expose_weight')
@@ -529,7 +529,7 @@ if not (path.exists(directory_plots)):
 if not (path.exists(directory_plots + "csvs/")):
     os.mkdir(directory_plots + "csvs/")
 
-file_name_params = str(cluster_coverage) + "_" + str(num_communities) + "_" + str(beta) + "_" + str(direct_NPIE)
+file_name_params = str(cluster_coverage) + "_" + str(num_communities) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(ave_community_size)
 batch_folder_name = directory_plots + "csvs/" + file_name_params + "/"
 if not (path.exists(batch_folder_name)):
     os.mkdir(batch_folder_name)

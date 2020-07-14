@@ -31,19 +31,7 @@ input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_rati
 output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_ratios_plot/"
 
 # Prepare list of effects to compare to null distribution ---------------------
-effects = [[0.5, 40, 0.04, 0.95, 100],
-           [0.7, 40, 0.04, 0.95, 100],
-           [0.9, 40, 0.04, 0.95, 100],
-           [0.5, 70, 0.04, 0.95, 100],
-           [0.7, 70, 0.04, 0.95, 100],
-           [0.9, 70, 0.04, 0.95, 100],
-           [0.5, 100, 0.04, 0.95, 100],
-           [0.7, 100, 0.04, 0.95, 100],
-           [0.9, 100, 0.04, 0.95, 100],
-           [0.9, 100, 0.04, 0.8, 100],
-           [0.9, 40, 0.04, 0.95, 200],
-           [0.9, 70, 0.04, 0.95, 200],
-           [0.9, 70, 0.04, 0.8, 200]]
+effects = [[0.5, 70, 0.04, 0.8, 100]]
 
 for effect in effects:
     # Load effect parameters --------------------------------------------------
