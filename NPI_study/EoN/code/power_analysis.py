@@ -31,7 +31,7 @@ input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_rati
 output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_ratios_plot/"
 
 # Prepare list of effects to compare to null distribution ---------------------
-effects = [[0.5, 70, 0.04, 0.8, 100]]
+effects = [[0.5, 70, 0.04, 0.8, 100, 100]]
 
 for effect in effects:
     # Load effect parameters --------------------------------------------------
@@ -40,13 +40,14 @@ for effect in effects:
     beta = effect[2]
     direct_NPIE = effect[3]
     comm_size = effect[4]
+    background_effect = effect[5]
     
     # Load null distribution --------------------------------------------------
-    null_filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(0) + "_" + str(comm_size) + ".csv"
+    null_filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(0) + "_" + str(comm_size) + "_" + str(background_effect) + ".csv"
     null = pd.read_csv(null_filename, sep=',')
     
     # Load effect distribution ------------------------------------------------
-    effect_filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + ".csv"
+    effect_filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "_" + str(background_effect) + ".csv"
     effect = pd.read_csv(effect_filename, sep=',')
     
     # Get log ratio of number of infections information -----------------------
@@ -73,6 +74,6 @@ for effect in effects:
     power_patch = mpatches.Patch(color='red', linestyle="--", label='power: ' + str(round(power, 2)))
     statistics_patch = mpatches.Patch(color='white', label="median null: " + str(round(np.median(log_ratio_null), 2)) + "\nmedian effect: " + str(round(np.median(log_ratio_effect), 2)))
     plt.legend(loc="upper right", handles=[null_patch, effect_patch, power_patch, statistics_patch], prop={'size': 6})
-    plot_filename = output_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + ".png"
+    plot_filename = output_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "_" + str(background_effect) + ".png"
     plt.savefig(plot_filename, dpi=300)
     plt.clf()

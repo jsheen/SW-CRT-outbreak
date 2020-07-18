@@ -1,0 +1,18 @@
+[[1]]
+[1] "Effect: (cluster_coverage)_(num_comm)_(beta)_(direct_NPIE)_(comm_size)_(background_effect)"
+
+[[2]]
+[1] 5e-01 4e+01 4e-02 8e-01 1e+02 1e+02
+
+[[3]]
+[1] "Success: number of statistically significant results out of 500 simulations."
+
+[[4]]
+[1] 0.23
+
+[[5]]
+[1] "Mean gamma value of the Rosenbaum sensitivity analysis: "
+
+[[6]]
+[1] 1.714783
+

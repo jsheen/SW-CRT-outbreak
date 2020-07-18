@@ -26,8 +26,7 @@ input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs/"
 output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_ratios/"
 
 # Input log ratios wanted -----------------------------------------------------
-effects = [[0.5, 70, 0.04, 0, 100],
-           [0.5, 70, 0.04, 0.8, 100]]
+effects = [[0.5, 40, 0.04, 0.8, 100, 100]]
 
 # Loop through each effect ----------------------------------------------------
 for effect in effects:
@@ -36,9 +35,10 @@ for effect in effects:
     beta = effect[2]
     direct_NPIE = effect[3]
     comm_size = effect[4]
+    background_effect = effect[5]
     
     # Input .csv file of final statuses ---------------------------------------
-    filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "/batch_res.csv"
+    filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "_" + str(background_effect) + "/batch_res.csv"
     df = pd.read_csv(filename, header=None, names=range(15000), sep=',')
     
     # Loop through simulations ------------------------------------------------
@@ -87,7 +87,7 @@ for effect in effects:
            raise NameError("Lists are not the same size.")
     
     # Write output ------------------------------------------------------------
-    filename = output_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + ".csv"
+    filename = output_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "_" + str(background_effect) + ".csv"
     with open(filename, 'w') as out_f:
         out_f.write("I_t" + ",")
         out_f.write("I_c" + ",")
