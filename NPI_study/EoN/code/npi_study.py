@@ -32,7 +32,7 @@ from datetime import date
 from statistics import mean
 
 
-effects = [[0.5, 70, 0.04, 0.8, 100, 100]]
+effects = [[0.5, 70, 0.04, 0.6, 100, 500]]
 
 for effect in effects:
     # Set seed ---------------------------------------------------------------------

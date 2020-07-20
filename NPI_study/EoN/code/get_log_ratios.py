@@ -26,7 +26,7 @@ input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs/"
 output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_ratios/"
 
 # Input log ratios wanted -----------------------------------------------------
-effects = [[0.5, 40, 0.04, 0.8, 100, 100]]
+effects = [[0.5, 70, 0.04, 0.6, 100, 500]]
 
 # Loop through each effect ----------------------------------------------------
 for effect in effects:

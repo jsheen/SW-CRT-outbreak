@@ -25,7 +25,7 @@ input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs/"
 output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/cluster_info/"
 
 # Input effects cluster info wanted for ---------------------------------------
-effects = [[0.5, 70, 0.04, 0.8, 100, 500]]
+effects = [[0.5, 70, 0.04, 0.6, 100, 500]]
 
 # Loop through each effect ----------------------------------------------------
 for effect in effects:
