@@ -22,7 +22,10 @@ input_folder <- "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/cluster
 output_folder <- "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/cluster_info_analysis/"
 
 # Input effects cluster info wanted for ----------------------------------------
-effects <- list(c(0.5, 70, 0.04, 0.6, 100, 500))
+effects <- list(c(0.7, 40, 0.04, 0.6, 100, 500),
+                c(0.9, 40, 0.04, 0.6, 100, 500),
+                c(0.7, 70, 0.04, 0.6, 100, 500),
+                c(0.9, 70, 0.04, 0.6, 100, 500))
 
 # Loop through each effect -----------------------------------------------------
 for (effect in effects) {

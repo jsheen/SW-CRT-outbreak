@@ -32,7 +32,8 @@ from datetime import date
 from statistics import mean
 
 
-effects = [[0.5, 70, 0.04, 0.6, 100, 500]]
+effects = [[1, 10, 0.04, 0, 700, 250],
+           [1, 10, 0.04, 0.8, 700, 250]]
 
 for effect in effects:
     # Set seed ---------------------------------------------------------------------
@@ -52,9 +53,9 @@ for effect in effects:
     # Population structure parameters ----------------------------------------------
     num_communities = effect[1] # Number of communities
     num_clusters_enrolled_per_day = effect[1] # Num. clusters targeted for enrollment. Must be <= to the number of communities
-    ave_community_size = 100 # Average size of one community
+    ave_community_size = effect[4] # Average size of one community
     community_size_range = 40 # Range of community sizes (sizes are uniformly distributed on this range)
-    rate_within = 0.15 # Probability of an edge between two nodes in the same community
+    rate_within = 0.03 # Probability of an edge between two nodes in the same community
     rate_between = 0 # Probability of an edge between two nodes in different communities
     
     # SEIR epidemic parameters -----------------------------------------------------
@@ -82,7 +83,7 @@ for effect in effects:
          ((ave_community_size-1) * rate_within + (num_communities - 1) * ave_community_size * rate_between) - 1)
     
     # Trial start and end date -----------------------------------------------------
-    trial_start_day = 21 # First day of trial enrollment, relative to start of epidemic
+    trial_start_day = 14 # First day of trial enrollment, relative to start of epidemic
     trial_length = 14 # Days after start to follow up
     
     # General CRT Parameters -------------------------------------------------------

@@ -31,7 +31,8 @@ input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_rati
 output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_ratios_plot/"
 
 # Prepare list of effects to compare to null distribution ---------------------
-effects = [[0.5, 70, 0.04, 0.6, 100, 500]]
+effects = [[1, 10, 0.04, 0.8, 700, 200]]
+
 
 for effect in effects:
     # Load effect parameters --------------------------------------------------
