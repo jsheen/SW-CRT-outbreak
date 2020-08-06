@@ -22,25 +22,36 @@ Created on Wed Jul  8 09:16:24 2020
 # Import libraries and set input and output folders ---------------------------
 import pandas as pd
 import numpy as np
-input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs/"
+input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs_1_1/csvs/"
 output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/log_ratios/"
 
 # Input log ratios wanted -----------------------------------------------------
-effects = [[1, 10, 0.04, 0, 700, 200],
-           [1, 10, 0.04, 0.8, 700, 200]]
-
+effects = [[1, 20, 0.04, 0, 500],
+           [1, 20, 0.04, 0.6, 500]]
 
 # Loop through each effect ----------------------------------------------------
 for effect in effects:
-    cluster_coverage = effect[0]
-    num_comm = effect[1]
-    beta = effect[2]
-    direct_NPIE = effect[3]
-    comm_size = effect[4]
-    background_effect = effect[5]
     
-    # Input .csv file of final statuses ---------------------------------------
-    filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "_" + str(background_effect) + "/batch_res.csv"
+    if (len(effect) == 6):
+        cluster_coverage = effect[0]
+        num_comm = effect[1]
+        beta = effect[2]
+        direct_NPIE = effect[3]
+        comm_size = effect[4]
+        background_effect = effect[5]
+    
+        # Input .csv file of final statuses -----------------------------------
+        filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "_" + str(background_effect) + "/batch_res.csv"
+    else:
+        cluster_coverage = effect[0]
+        num_comm = effect[1]
+        beta = effect[2]
+        direct_NPIE = effect[3]
+        comm_size = effect[4]
+        
+        # Input .csv file of final statuses -----------------------------------
+        filename = input_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "/batch_res.csv"
+    
     df = pd.read_csv(filename, header=None, names=range(15000), sep=',')
     
     # Loop through simulations ------------------------------------------------
@@ -48,16 +59,20 @@ for effect in effects:
     infected_control = []
     recovered_treatment = []
     recovered_control = []
+    cumul_tot_enrolled = []
     for row_num in range(500):
         print("Sim. number: " + str(row_num))
         sim_infect_treatment = 0
         sim_infect_control = 0
         sim_recover_treatment = 0
         sim_recover_control = 0
+        tot_enrolled = 0
         for col_num in range(2, 15000):
             if not pd.isnull(df[col_num][row_num]):
                 res = df[col_num][row_num].split("_")
                 # If enrolled, and infected -----------------------------------
+                if res[3] == "1":
+                    tot_enrolled += 1
                 if res[3] == '1' and res[4] == 'I': 
                     # If treated ----------------------------------------------
                     if res[2] == '1':
@@ -73,6 +88,7 @@ for effect in effects:
                     # If control ----------------------------------------------
                     else:
                         sim_recover_control += 1
+        cumul_tot_enrolled.append(tot_enrolled)
         infected_treatment.append(sim_infect_treatment)
         infected_control.append(sim_infect_control)
         recovered_treatment.append(sim_recover_treatment)
@@ -89,7 +105,11 @@ for effect in effects:
            raise NameError("Lists are not the same size.")
     
     # Write output ------------------------------------------------------------
-    filename = output_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "_" + str(background_effect) + ".csv"
+    if (len(effect) == 6):
+        filename = output_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "_" + str(background_effect) + ".csv"
+    else:
+        filename = output_folder + str(cluster_coverage) + "_" + str(num_comm) + "_" + str(beta) + "_" + str(direct_NPIE) + "_" + str(comm_size) + "_1_1" + ".csv"
+        
     with open(filename, 'w') as out_f:
         out_f.write("I_t" + ",")
         out_f.write("I_c" + ",")

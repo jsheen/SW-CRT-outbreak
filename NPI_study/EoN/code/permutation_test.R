@@ -19,31 +19,34 @@ input_folder <- "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/cluster
 output_folder <- "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/permutation_test/"
 
 # Input effects cluster info wanted for ----------------------------------------
-effects <- list(c(0.5, 40, 0.04, 0, 100, 100),
-                c(0.7, 40, 0.04, 0, 100, 100),
-                c(0.9, 40, 0.04, 0, 100, 100),
-                c(0.5, 70, 0.04, 0, 100, 100),
-                c(0.7, 70, 0.04, 0, 100, 100),
-                c(0.9, 70, 0.04, 0, 100, 100),
-                c(0.5, 40, 0.04, 0, 100, 500),
-                c(0.7, 40, 0.04, 0, 100, 500),
-                c(0.9, 40, 0.04, 0, 100, 500),
-                c(0.5, 70, 0.04, 0, 100, 500),
-                c(0.7, 70, 0.04, 0, 100, 500),
-                c(0.9, 70, 0.04, 0, 100, 500))
+effects <- list(c(1, 20, 0.04, 0, 500),
+                c(1, 20, 0.04, 0.6, 500))
 
 # Loop through each effect -----------------------------------------------------
 for (effect in effects) {
-  cluster_coverage <- effect[1]
-  num_comm <- effect[2]
-  beta <- effect[3]
-  direct_NPIE <- effect[4]
-  comm_size <- effect[5]
-  background_effect <- effect[6]
   
-  # Input .csv file of final statuses ------------------------------------------
-  filename <- paste0(input_folder, cluster_coverage, "_", num_comm, "_", beta, "_", direct_NPIE, "_", comm_size, "_", background_effect, ".csv")
-  df <- read.csv(filename, header=F, stringsAsFactors=FALSE)
+  if (length(effect) == 6) {
+    cluster_coverage <- effect[1]
+    num_comm <- effect[2]
+    beta <- effect[3]
+    direct_NPIE <- effect[4]
+    comm_size <- effect[5]
+    background_effect <- effect[6]
+    
+    # Input .csv file of final statuses ------------------------------------------
+    filename <- paste0(input_folder, cluster_coverage, "_", num_comm, "_", beta, "_", direct_NPIE, "_", comm_size, "_", background_effect, ".csv")
+    df <- read.csv(filename, header=F, stringsAsFactors=FALSE)
+  } else {
+    cluster_coverage <- effect[1]
+    num_comm <- effect[2]
+    beta <- effect[3]
+    direct_NPIE <- effect[4]
+    comm_size <- effect[5]
+    
+    # Input .csv file of final statuses ------------------------------------------
+    filename <- paste0(input_folder, cluster_coverage, "_", num_comm, "_", beta, "_", direct_NPIE, "_", comm_size, "_1_1", ".csv")
+    df <- read.csv(filename, header=F, stringsAsFactors=FALSE)
+  }
   
   true_log_ratio_statistics <- vector()
   log_ratio_statistics <- vector()
@@ -84,16 +87,30 @@ for (effect in effects) {
     }
   }
   
-  # Plot results ---------------------------------------------------------------
-  pdf(file=paste0(output_folder, cluster_coverage, "_", num_comm, "_", beta, "_", direct_NPIE, "_", comm_size, "_", background_effect, ".pdf"),width=10, height=5)
-  par(mfrow=c(1,2))
-  hist(true_log_ratio_statistics)
-  hist(log_ratio_statistics)
-  dev.off()
-  
-  # Write .csvs of the data ----------------------------------------------------
-  filename <- file.path(paste0(output_folder, cluster_coverage, "_", num_comm, "_", beta, "_", direct_NPIE, "_", comm_size, "_", background_effect, ".csv"))
-  write.table(log_ratio_statistics, filename, row.names = F)
+  if (length(effect) == 6) {
+    # Plot results ---------------------------------------------------------------
+    pdf(file=paste0(output_folder, cluster_coverage, "_", num_comm, "_", beta, "_", direct_NPIE, "_", comm_size, "_", background_effect, ".pdf"),width=10, height=5)
+    par(mfrow=c(1,2))
+    hist(true_log_ratio_statistics)
+    hist(log_ratio_statistics)
+    dev.off()
+    
+    # Write .csvs of the data ----------------------------------------------------
+    filename <- file.path(paste0(output_folder, cluster_coverage, "_", num_comm, "_", beta, "_", direct_NPIE, "_", comm_size, "_", background_effect, ".csv"))
+    write.table(log_ratio_statistics, filename, row.names = F)
+  } else {
+    # Plot results ---------------------------------------------------------------
+    pdf(file=paste0(output_folder, cluster_coverage, "_", num_comm, "_", beta, "_", direct_NPIE, "_", comm_size, "_1_1", ".pdf"),width=10, height=5)
+    par(mfrow=c(1,2))
+    hist(true_log_ratio_statistics)
+    hist(log_ratio_statistics)
+    dev.off()
+    
+    # Write .csvs of the data ----------------------------------------------------
+    filename <- file.path(paste0(output_folder, cluster_coverage, "_", num_comm, "_", beta, "_", direct_NPIE, "_", comm_size, "_1_1", ".csv"))
+    write.table(log_ratio_statistics, filename, row.names = F)
+  }
+
 }
 
 
