@@ -14,7 +14,7 @@ Created on Wed Aug 12 12:00:00 2020
 input_folder <- "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/power_shiny_data/csvs/"
 output_folder <- "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/power_shiny_data/plots/"
 
-ncomms <- c(20, 40, 60, 80)
+ncomms <- c(60, 80)
 effects <- c(0.2, 0.4, 0.6)
 
 for (ncomm in ncomms) {
@@ -52,18 +52,19 @@ for (ncomm in ncomms) {
         if (sim_num == 1) {
           plot(1:ncol(I_control_traj), I_control_traj[sim_num,] / ((ncomm * 500) / 2), type="l", xlab="t (days)", ylim=c(0, max(I_control_traj / ((ncomm * 500) / 2), na.rm=T)), ylab="approx % infectious per community pop.", col="black", xlim=c(0, 250))
         } else {
-          lines(1:ncol(I_control_traj), I_control_traj[sim_num,] / ((ncomm * 500) / 2), type="l", col="black", lwd=0.3)
+          lines(1:ncol(I_control_traj), I_control_traj[sim_num,] / ((ncomm * 500) / 2), type="l", col="black", lwd=0.1)
         }
       }
       for (sim_num in 1:nrow(I_treatment_traj)) {
         if (sim_num == 1) {
           lines(1:ncol(I_treatment_traj), I_treatment_traj[sim_num,] / ((ncomm * 500) / 2), col="orange")
         }
-        lines(1:ncol(I_treatment_traj), I_treatment_traj[sim_num,] / ((ncomm * 500) / 2), col="orange", lwd=0.3)
+        lines(1:ncol(I_treatment_traj), I_treatment_traj[sim_num,] / ((ncomm * 500) / 2), col="orange", lwd=0.1)
       }
       
       par(new=T)
       plot(infect_res$t[1:219], (infect_res[1:219,(sample_size_dex + 1)]), col="blue", lwd=2, axes=F, xlab=NA, ylab=NA, xlim=c(0, 250), type="l", ylim=c(0, 1))
+      #lines(infect_recover_res$t[1:219], (infect_recover_res[1:219,(sample_size_dex + 1)]), col="green", lwd=2)
       mtext("power",side=4,col="blue",line=4)
       axis(4, ylim=c(0, 1), col="blue",col.axis="blue",las=1)
       
@@ -73,39 +74,39 @@ for (ncomm in ncomms) {
       
       dev.off()
       
-      # # Save the .png of the infection_recover log ratio statistic ---------------------
-      # png(paste0(output_folder, "1_", ncomm, "_0.04_", effect, "_", sample_sizes[sample_size_dex], "_500_infection_recover.png"), width=1000, height=600)
-      # par(mar=c(5, 4, 4, 6) + 0.1)
-      # 
-      # # First do preprocessing to get rid of rows that are continuations of previous rows
-      # R_control_traj <- R_control_traj[which(!is.na(R_control_traj[,80])),]
-      # R_treatment_traj <- R_treatment_traj[which(!is.na(R_treatment_traj[,80])),]
-      # 
-      # # Create new I_R traj ----------------------------------------------------
-      # I_R_control_traj <- I_control_traj + R_control_traj
-      # I_R_treatment_traj <- I_treatment_traj + R_treatment_traj
-      # 
-      # for (sim_num in 1:nrow(I_R_control_traj)) {
-      #   if (sim_num == 1) {
-      #     plot(1:ncol(I_R_control_traj), I_R_control_traj[sim_num,], type="l", xlab="t (days)", ylim=c(0, max(I_R_control_traj, na.rm=T)), ylab="approx % infectious per community pop.", col="black", xlim=c(0, 250))
-      #   } else {
-      #     lines(1:ncol(I_R_control_traj), I_R_control_traj[sim_num,] , type="l")
-      #   }
-      # }
-      # for (sim_num in 1:nrow(I_R_treatment_traj)) {
-      #   lines(1:ncol(I_R_treatment_traj), I_R_treatment_traj[sim_num,], col="orange")
-      # }
-      # 
-      # par(new=T)
-      # plot(infect_recover_res$t[1:219], (infect_recover_res[1:219,(sample_size_dex + 1)]), col="blue", lwd=2, axes=F, xlab=NA, ylab=NA, xlim=c(0, 250), type="l", ylim=c(0, 1))
-      # mtext("power",side=4,col="blue",line=4)
-      # axis(4, ylim=c(0, 1), col="blue",col.axis="blue",las=1)
-      # 
-      # abline(v=21, col="purple", lwd=2)
-      # abline(v=32, col="purple", lwd=2, lty="dashed")
-      # abline(h=0.8, lty="longdash", col="blue", lwd=2)
-      # 
-      # dev.off()
+      # Save the .png of the infection_recover log ratio statistic ---------------------
+      png(paste0(output_folder, "1_", ncomm, "_0.04_", effect, "_", sample_sizes[sample_size_dex], "_500_infection_recover.png"), width=700, height=600)
+      par(mar=c(5, 4, 4, 6) + 0.1)
+
+      # First do preprocessing to get rid of rows that are continuations of previous rows
+      R_control_traj <- R_control_traj[which(R_control_traj[,1] == 0),]
+      R_treatment_traj <- R_treatment_traj[which(R_treatment_traj[,1] == 0),]
+
+      # Create new I_R traj ----------------------------------------------------
+      I_R_control_traj <- I_control_traj + R_control_traj
+      I_R_treatment_traj <- I_treatment_traj + R_treatment_traj
+      
+      for (sim_num in 1:nrow(I_R_control_traj)) {
+        if (sim_num == 1) {
+          plot(1:ncol(I_R_control_traj), I_R_control_traj[sim_num,] / ((500 * ncomm) / 2), type="l", xlab="t (days)", ylim=c(0, max(I_R_control_traj / ((500 * ncomm) / 2), na.rm=T)), ylab="approx % infectious or recovered per community pop.", col="black", xlim=c(0, 250))
+        } else {
+          lines(1:ncol(I_R_control_traj), I_R_control_traj[sim_num,] / ((500 * ncomm) / 2) , type="l", lwd=0.1)
+        }
+      }
+      for (sim_num in 1:nrow(I_R_treatment_traj)) {
+        lines(1:ncol(I_R_treatment_traj), I_R_treatment_traj[sim_num,] / ((500 * ncomm) / 2), col="orange", lwd=0.1)
+      }
+      
+      par(new=T)
+      plot(infect_recover_res$t[1:219], (infect_recover_res[1:219,(sample_size_dex + 1)]), col="blue", lwd=2, axes=F, xlab=NA, ylab=NA, xlim=c(0, 250), type="l", ylim=c(0, 1))
+      mtext("power",side=4,col="blue",line=4)
+      axis(4, ylim=c(0, 1), col="blue",col.axis="blue",las=1)
+       
+      abline(v=21, col="purple", lwd=2)
+      abline(v=32, col="purple", lwd=2, lty="dashed")
+      abline(h=0.8, lty="longdash", col="blue", lwd=2)
+      
+      dev.off()
     }
   }
 }

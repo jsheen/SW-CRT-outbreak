@@ -1,0 +1,12 @@
+name: power_shiny
+title: power_shiny
+username:
+account: j-k-s
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2667645
+bundleId: 3512315
+url: https://j-k-s.shinyapps.io/power_shiny/
+when: 1597345719.09126
+asMultiple: FALSE
+asStatic: FALSE

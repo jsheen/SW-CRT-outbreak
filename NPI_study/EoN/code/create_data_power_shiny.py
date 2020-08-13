@@ -42,7 +42,7 @@ for ncomm in ncomms:
         for time_step in range(500):
             print("Curr. time step: " + str(time_step))
             # If treatment was already applied --------------------------------
-            if time_step >= 28:
+            if time_step >= 32:
                 power_per_sample_size_log_ratio_infect = []
                 power_per_sample_size_log_ratio_infect_recover = []
                 for sample_size in sample_sizes:
