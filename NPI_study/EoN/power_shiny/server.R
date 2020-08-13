@@ -15,7 +15,7 @@ shinyServer(
       filename <- paste0(plot_directory, "1_", n_comm, "_0.04_", effect_size, "_" , number_randomly_sampled, "_500_infection", ".png")
       if (file.exists(filename)) {
         list(src=filename,
-             width = 800,
+             width = 600,
              height = 500)
       } else {
         list()
