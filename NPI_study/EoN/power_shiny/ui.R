@@ -9,7 +9,7 @@ shinyUI(
     sidebarPanel(
       radioButtons("radio", label = h4("Choice of log ratio statistic"),
                                   choices = list("log((I_treatment + 1) / (I_control + 1))" = 1, 
-                                                 "log(((I & R)_treatment + 1) / ((I & R)_control + 1))" = 2), 
+                                                 "log(((I + R)_treatment + 1) / ((I + R)_control + 1))" = 2), 
                                   selected = 1),
       
       shinyWidgets::sliderTextInput(inputId = "numberOfCommunities",
