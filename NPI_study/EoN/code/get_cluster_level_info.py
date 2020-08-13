@@ -27,7 +27,9 @@ output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/cluster
 # Input effects cluster info wanted for ---------------------------------------
 # Input log ratios wanted -----------------------------------------------------
 effects = [[1, 20, 0.04, 0, 500],
-           [1, 20, 0.04, 0.6, 500]]
+           [1, 40, 0.04, 0, 500],
+           [1, 60, 0.04, 0, 500],
+           [1, 80, 0.04, 0, 500]]
 
 # Loop through each effect ----------------------------------------------------
 for effect in effects:

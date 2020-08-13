@@ -3,36 +3,32 @@ library(shinyWidgets)
 
 shinyUI(
   pageWithSidebar(
-    headerPanel("Statistical power for a non-pharmaceutical intervention (NPI) cluster-randomized trial"),
+    headerPanel("Power of a log ratio statistic to find differences between
+                treated and control communities fairly early and for a short
+                observation period (i.e. time from treatment to follow-up) during
+                an epidemic, where communities are high risk (i.e. high contact) in
+                a SEIR network model."),
     sidebarPanel(
       
       shinyWidgets::sliderTextInput(inputId = "numberOfCommunities",
                                     label = "Number of communities",
-                                    choices = c(40, 70)),
+                                    choices = c(20, 40, 60, 80)),
 
-      shinyWidgets::sliderTextInput(inputId = "numberWithinEachCommunity",
-                                    label = "Number within each community",
-                                    choices = c(100)),
-
-      shinyWidgets::sliderTextInput(inputId = "clusterCoverage",
-                                    label = "Cluster coverage",
-                                    choices = c(50, 70, 90)),
+      shinyWidgets::sliderTextInput(inputId = "numberRandomlySampled",
+                                    label = "Number randomly sampled from study population",
+                                    choices = seq(1000, 40000, 1000)),
 
       shinyWidgets::sliderTextInput(inputId = "effectSize",
-                                    label = "Effect size",
-                                    choices = c(80)),
+                                    label = "Effect size (%)",
+                                    choices = c(20, 40, 60)),
     
-      shinyWidgets::sliderTextInput(inputId = "activeBackgroundInfections",
-                                    label = "Active background infections",
-                                    choices = c(100, 500))),
-      
-      # To be implemented in the future ----------------------------------------
-      # shinyWidgets::sliderTextInput(inputId = "Observation sample size", 
-      #                               label = "Observation sample size", 
-      #                               choices = c(4000, 7000, 10000)),
+      shinyWidgets::sliderTextInput(inputId = "timeOfIntervention",
+                                    label = "Time of intervention (day)",
+                                    choices = c(21))),
     
     mainPanel(
-      imageOutput("log_ratio_plot")
+      imageOutput("log_ratio_plot"),
+      textOutput("text1")
     )
   )
 )

@@ -5,19 +5,18 @@ shinyServer(
   function(input, output, session) {
     output$log_ratio_plot <- renderImage({
       
-      plot_directory <- "~/SW-CRT-outbreak/NPI_study/EoN/code_output/log_ratios_plot/"
+      plot_directory <- "~/SW-CRT-outbreak/NPI_study/EoN/code_output/power_shiny_data/plots/"
       
       n_comm <- input$numberOfCommunities
-      n_win_comm <- input$numberWithinEachCommunity
-      cluster_coverage <- input$clusterCoverage / 100
+      number_randomly_sampled <- input$numberRandomlySampled
       effect_size <- input$effectSize / 100
-      background_infections <- input$activeBackgroundInfections
+      time_of_intervention <- input$timeOfIntevention
       
-      filename <- paste0(plot_directory, cluster_coverage, "_", n_comm, "_", 0.04, "_", effect_size, "_", n_win_comm, "_", background_infections, ".png")
+      filename <- paste0(plot_directory, "1_", n_comm, "_0.04_", effect_size, "_" , number_randomly_sampled, "_500_infection", ".png")
       if (file.exists(filename)) {
         list(src=filename,
-             width = 500,
-             height = 400)
+             width = 800,
+             height = 500)
       } else {
         list()
         print('Plot not available.')
