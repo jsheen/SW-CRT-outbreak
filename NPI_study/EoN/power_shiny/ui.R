@@ -23,14 +23,14 @@ shinyUI(
       shinyWidgets::sliderTextInput(inputId = "effectSize",
                                     label = h4("Effect size of treatment (%)"),
                                     choices = c(20, 40, 60)),
+      
+      shinyWidgets::sliderTextInput(inputId = "beta",
+                                    label = h4("Beta (transmission rate of the epidemic)"),
+                                    choices = c(0.02, 0.03, 0.04)),
     
       shinyWidgets::sliderTextInput(inputId = "timeOfIntervention",
                                     label = h4("Time of intervention (day of intervention)"),
-                                    choices = c(21)),
-    
-      shinyWidgets::sliderTextInput(inputId = "beta",
-                                    label = h4("Beta (transmission rate of the epidemic)"),
-                                    choices = c(0.04))),
+                                    choices = c(21))),
     
     mainPanel(
       h4("Legend:"),

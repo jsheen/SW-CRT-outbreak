@@ -14,7 +14,7 @@ Created on Wed Aug 12 12:00:00 2020
 input_folder <- "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/power_shiny_data/csvs/"
 output_folder <- "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/power_shiny_data/plots/"
 
-ncomms <- c(20, 40, 60, 80)
+ncomms <- c(20)
 effects <- c(0.2, 0.4, 0.6)
 
 for (ncomm in ncomms) {
@@ -22,12 +22,12 @@ for (ncomm in ncomms) {
     print(paste0("ncomm: ", ncomm))
     print(paste0("effect: ", effect))
     
-    filename_infect_res <- paste0(input_folder, "1_", ncomm, "_0.04_", effect, "_500_infect_res.csv")
-    filename_infect_recover_res <- paste0(input_folder, "1_", ncomm, "_0.04_", effect, "_500_infect_recover_res.csv")
-    filename_I_control_traj <- paste0(input_folder, "1_", ncomm, "_0.04_", effect, "_500_infect_recover_traj_I_control.csv")
-    filename_I_treatment_traj <- paste0(input_folder, "1_", ncomm, "_0.04_", effect, "_500_infect_recover_traj_I_treatment.csv")
-    filename_R_control_traj <- paste0(input_folder, "1_", ncomm, "_0.04_", effect, "_500_infect_recover_traj_R_control.csv")
-    filename_R_treatment_traj <- paste0(input_folder, "1_", ncomm, "_0.04_", effect, "_500_infect_recover_traj_R_treatment.csv")
+    filename_infect_res <- paste0(input_folder, "1_", ncomm, "_0.03_", effect, "_500_infect_res.csv")
+    filename_infect_recover_res <- paste0(input_folder, "1_", ncomm, "_0.03_", effect, "_500_infect_recover_res.csv")
+    filename_I_control_traj <- paste0(input_folder, "1_", ncomm, "_0.03_", effect, "_500_infect_recover_traj_I_control.csv")
+    filename_I_treatment_traj <- paste0(input_folder, "1_", ncomm, "_0.03_", effect, "_500_infect_recover_traj_I_treatment.csv")
+    filename_R_control_traj <- paste0(input_folder, "1_", ncomm, "_0.03_", effect, "_500_infect_recover_traj_R_control.csv")
+    filename_R_treatment_traj <- paste0(input_folder, "1_", ncomm, "_0.03_", effect, "_500_infect_recover_traj_R_treatment.csv")
     
     infect_res <- read.csv(filename_infect_res, header=T, stringsAsFactors=FALSE)
     infect_recover_res <- read.csv(filename_infect_recover_res, header=T, stringsAsFactors=FALSE)
@@ -41,12 +41,12 @@ for (ncomm in ncomms) {
       print(paste0("sample_size: ", sample_sizes[sample_size_dex]))
       
       # Save the .png of the infection log ratio statistic ---------------------
-      png(paste0(output_folder, "1_", ncomm, "_0.04_", effect, "_", sample_sizes[sample_size_dex], "_500_infection.png"), width=700, height=600)
+      png(paste0(output_folder, "1_", ncomm, "_0.03_", effect, "_", sample_sizes[sample_size_dex], "_500_infection.png"), width=700, height=600)
       par(mar=c(5, 4, 4, 6) + 0.1)
       
       # First do preprocessing to get rid of rows that are continuations of previous rows
-      I_control_traj <- I_control_traj[which(!is.na(I_control_traj[,80]) & I_control_traj[,80] > 10),]
-      I_treatment_traj <- I_treatment_traj[which(!is.na(I_treatment_traj[,80])  & I_treatment_traj[,80] > 10),]
+      I_control_traj <- I_control_traj[which(!is.na(I_control_traj[,80]) & I_control_traj[,1] > 20),]
+      I_treatment_traj <- I_treatment_traj[which(!is.na(I_treatment_traj[,80])  & I_treatment_traj[,1] > 20),]
       
       for (sim_num in 1:nrow(I_control_traj)) {
         if (sim_num == 1) {
@@ -75,7 +75,7 @@ for (ncomm in ncomms) {
       dev.off()
       
       # Save the .png of the infection_recover log ratio statistic ---------------------
-      png(paste0(output_folder, "1_", ncomm, "_0.04_", effect, "_", sample_sizes[sample_size_dex], "_500_infection_recover.png"), width=700, height=600)
+      png(paste0(output_folder, "1_", ncomm, "_0.03_", effect, "_", sample_sizes[sample_size_dex], "_500_infection_recover.png"), width=700, height=600)
       par(mar=c(5, 4, 4, 6) + 0.1)
 
       # First do preprocessing to get rid of rows that are continuations of previous rows
