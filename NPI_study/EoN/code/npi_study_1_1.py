@@ -31,22 +31,10 @@ from itertools import product
 from datetime import date
 from statistics import mean
 
-effects = [[1, 20, 0.02, 0, 500],
-           [1, 20, 0.02, 0.2, 500],
-           [1, 20, 0.02, 0.4, 500],
-           [1, 20, 0.02, 0.6, 500],
-           [1, 40, 0.02, 0, 500],
-           [1, 40, 0.02, 0.2, 500],
-           [1, 40, 0.02, 0.4, 500],
-           [1, 40, 0.02, 0.6, 500],
-           [1, 60, 0.02, 0, 500],
-           [1, 60, 0.02, 0.2, 500],
-           [1, 60, 0.02, 0.4, 500],
-           [1, 60, 0.02, 0.6, 500],
-           [1, 80, 0.02, 0, 500],
-           [1, 80, 0.02, 0.2, 500],
-           [1, 80, 0.02, 0.4, 500],
-           [1, 80, 0.02, 0.6, 500]]
+effects = [[1, 60, 0.04, 0, 500],
+           [1, 60, 0.04, 0.2, 500],
+           [1, 60, 0.04, 0.4, 500],
+           [1, 60, 0.04, 0.6, 500]]
 
 for effect in effects:
     # Set seed ---------------------------------------------------------------------
@@ -57,7 +45,7 @@ for effect in effects:
     nsim = 100
     
     # Directory to save results ----------------------------------------------------
-    directory_plots = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs_1_1/"
+    directory_plots = "/Users/jsheen/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs_1_1/"
     
     """# Changeable simulation parameters
     - Population structure parameters, Epidemic parameters, Trial start and end dates, General CRT parameters, Parallel-Arm CRT parameters, SWT parameters

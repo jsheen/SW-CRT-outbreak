@@ -14,7 +14,7 @@ Created on Wed Aug 12 12:00:00 2020
 input_folder <- "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/power_shiny_data/csvs/"
 output_folder <- "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/power_shiny_data/plots/"
 
-ncomms <- c(20)
+ncomms <- c(40, 60)
 effects <- c(0.2, 0.4, 0.6)
 
 for (ncomm in ncomms) {

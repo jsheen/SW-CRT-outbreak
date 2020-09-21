@@ -10,11 +10,12 @@ Created on Mon Aug 10 11:29:06 2020
 import pandas as pd
 import numpy as np
 import math
-input_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs_1_1/csvs/"
-output_folder = "/Users/Justin/SW-CRT-outbreak/NPI_study/EoN/code_output/power_shiny_data/csvs/"
+input_folder = "/Users/jsheen/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs_1_1/csvs/"
+output_folder = "/Users/jsheen/SW-CRT-outbreak/NPI_study/EoN/code_output/power_shiny_data/csvs/"
 
-ncomms = [80, 60, 40, 20]
+ncomms = [60, 40]
 effects = [0.2, 0.4, 0.6]
+beta_val = 0.04
 sample_sizes = list(range(1000, 41000, 1000))
 
 seed = 0
@@ -22,25 +23,25 @@ seed = 0
 for ncomm in ncomms:
     for effect in effects:
        # # Load "null" results -------------------------------------------------
-       # first_fifty_filename = input_folder + "1_" + str(ncomm) + "_0.04_" + str(0) + "_500_run1/batch_res.csv"
+       # first_fifty_filename = input_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(0) + "_500_run1/batch_res.csv"
        # first_fifty_df = pd.read_csv(first_fifty_filename, header=None, names=range(1000), sep=',')
-       # second_fifty_filename = input_folder + "1_" + str(ncomm) + "_0.04_" + str(0) + "_500_run2/batch_res.csv"
+       # second_fifty_filename = input_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(0) + "_500_run2/batch_res.csv"
        # second_fifty_df = pd.read_csv(second_fifty_filename, header=None, names=range(1000), sep=',')
        # null_df = pd.concat([first_fifty_df, second_fifty_df], ignore_index=True)
        # 
        # # Load "effect" results -----------------------------------------------
-       # first_fifty_filename = input_folder + "1_" + str(ncomm) + "_0.04_" + str(effect) + "_500_run1/batch_res.csv"
+       # first_fifty_filename = input_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(effect) + "_500_run1/batch_res.csv"
        # first_fifty_df = pd.read_csv(first_fifty_filename, header=None, names=range(1000), sep=',')
-       # second_fifty_filename = input_folder + "1_" + str(ncomm) + "_0.04_" + str(effect) + "_500_run2/batch_res.csv"
+       # second_fifty_filename = input_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(effect) + "_500_run2/batch_res.csv"
        # second_fifty_df = pd.read_csv(second_fifty_filename, header=None, names=range(1000), sep=',')
        # effect_df = pd.concat([first_fifty_df, second_fifty_df], ignore_index=True)
         
         # Load "null" results -------------------------------------------------
-        null_filename = input_folder + "1_" + str(ncomm) + "_0.02_" + str(0) + "_500/batch_res.csv"
+        null_filename = input_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(0) + "_500/batch_res.csv"
         null_df = pd.read_csv(null_filename, header=None, names=range(1000), sep=',')
         
         # Load "effect" results -----------------------------------------------
-        effect_filename = input_folder + "1_" + str(ncomm) + "_0.02_" + str(effect) + "_500/batch_res.csv"
+        effect_filename = input_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(effect) + "_500/batch_res.csv"
         effect_df = pd.read_csv(effect_filename, header=None, names=range(1000), sep=',')
         
         # Loop through time steps ---------------------------------------------
@@ -184,7 +185,7 @@ for ncomm in ncomms:
                 print(power_per_sample_size_log_ratio_infect_recover)
         
         # Save the power results ----------------------------------------------
-        filename = output_folder + "1_" + str(ncomm) + "_0.02_" + str(effect) + "_500_infect_res.csv"
+        filename = output_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(effect) + "_500_infect_res.csv"
         with open(filename, 'w') as out_f:
             out_f.write("t,")
             for sample_size in sample_sizes:
@@ -196,7 +197,7 @@ for ncomm in ncomms:
                         out_f.write(str(time_step_infect_res[l][l2]) + ",")
                 out_f.write("\n")
                 
-        filename = output_folder + "1_" + str(ncomm) + "_0.02_" + str(effect) + "_500_infect_recover_res.csv"
+        filename = output_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(effect) + "_500_infect_recover_res.csv"
         with open(filename, 'w') as out_f:
             out_f.write("t,")
             for sample_size in sample_sizes:
@@ -232,28 +233,28 @@ for ncomm in ncomms:
             cumul_R_treatment.append(R_treatment)
 
         
-        filename = output_folder + "1_" + str(ncomm) + "_0.02_" + str(effect) + "_500_infect_recover_traj_I_control.csv"
+        filename = output_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(effect) + "_500_infect_recover_traj_I_control.csv"
         with open(filename, 'w') as out_f:
             for l in range(len(cumul_I_control)):
                 for l2 in range(len(cumul_I_control[l])):
                     out_f.write(str(cumul_I_control[l][l2]) + ",")
                 out_f.write("\n")
                 
-        filename = output_folder + "1_" + str(ncomm) + "_0.02_" + str(effect) + "_500_infect_recover_traj_I_treatment.csv"
+        filename = output_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(effect) + "_500_infect_recover_traj_I_treatment.csv"
         with open(filename, 'w') as out_f:
             for l in range(len(cumul_I_treatment)):
                 for l2 in range(len(cumul_I_treatment[l])):
                     out_f.write(str(cumul_I_treatment[l][l2]) + ",")
                 out_f.write("\n")
                 
-        filename = output_folder + "1_" + str(ncomm) + "_0.02_" + str(effect) + "_500_infect_recover_traj_R_control.csv"
+        filename = output_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(effect) + "_500_infect_recover_traj_R_control.csv"
         with open(filename, 'w') as out_f:
             for l in range(len(cumul_R_control)):
                 for l2 in range(len(cumul_R_control[l])):
                     out_f.write(str(cumul_R_control[l][l2]) + ",")
                 out_f.write("\n")
                 
-        filename = output_folder + "1_" + str(ncomm) + "_0.02_" + str(effect) + "_500_infect_recover_traj_R_treatment.csv"
+        filename = output_folder + "1_" + str(ncomm) + "_" + str(beta_val) + "_" + str(effect) + "_500_infect_recover_traj_R_treatment.csv"
         with open(filename, 'w') as out_f:
             for l in range(len(cumul_R_treatment)):
                 for l2 in range(len(cumul_R_treatment[l])):
