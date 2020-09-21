@@ -1,0 +1,12 @@
+name: power_surface_shiny
+title: power_surface_shiny
+username:
+account: j-k-s
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2691576
+bundleId: 3541850
+url: https://j-k-s.shinyapps.io/power_surface_shiny/
+when: 1598017847.83697
+asMultiple: FALSE
+asStatic: FALSE
