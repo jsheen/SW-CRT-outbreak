@@ -22,7 +22,7 @@ shinyUI(
     
       shinyWidgets::sliderTextInput(inputId = "effectSize",
                                     label = h4("Effect size of treatment (%)"),
-                                    choices = c(20, 40, 60)),
+                                    choices = c(20, 40, 50, 60)),
       
       shinyWidgets::sliderTextInput(inputId = "beta",
                                     label = h4("Beta (transmission rate of the epidemic)"),

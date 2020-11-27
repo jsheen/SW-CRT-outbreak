@@ -13,12 +13,14 @@ import math
 input_folder = "/Users/jsheen/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs_1_1/csvs/"
 output_folder = "/Users/jsheen/SW-CRT-outbreak/NPI_study/EoN/code_output/power_shiny_data/csvs/"
 
-ncomms = [60, 40]
+ncomms = [50]
 effects = [0.2, 0.4, 0.6]
 beta_val = 0.04
 sample_sizes = list(range(1000, 41000, 1000))
 
 seed = 0
+
+n_sims = 100
 
 for ncomm in ncomms:
     for effect in effects:
@@ -64,7 +66,7 @@ for ncomm in ncomms:
                     null_states = []
                     
                     # Loop through each simulation ----------------------------
-                    for sim_num in list(range(100)):
+                    for sim_num in list(range(n_sims)):
                         if not pd.isnull(null_df[time_step][sim_num]):
                             # Randomly sample from the null population --------
                             null_state = null_df[time_step][sim_num].split("_")
@@ -214,7 +216,7 @@ for ncomm in ncomms:
         cumul_I_treatment = []
         cumul_R_control = []
         cumul_R_treatment = []
-        for sim_num in list(range(100)):
+        for sim_num in list(range(n_sims)):
             I_control = []
             I_treatment = []
             R_control = []

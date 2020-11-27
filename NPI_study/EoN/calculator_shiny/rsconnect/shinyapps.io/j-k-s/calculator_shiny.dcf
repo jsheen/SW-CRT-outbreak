@@ -1,0 +1,12 @@
+name: calculator_shiny
+title: calculator_shiny
+username:
+account: j-k-s
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3197372
+bundleId: 3839417
+url: https://j-k-s.shinyapps.io/calculator_shiny/
+when: 1604958036.86337
+asMultiple: FALSE
+asStatic: FALSE

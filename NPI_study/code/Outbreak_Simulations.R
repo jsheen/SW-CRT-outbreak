@@ -94,7 +94,7 @@ if (first_crossover + (num_steps-1)*step_interval >  trial_startday + trial_leng
 ave_community_size <- 500
 rate_within <- 0.03
 rate_between <- 0
-beta <- 0.04
+beta <- 0.03
 num_communities <- 40
 R0 <- (1 - (infperiod_rate/(infperiod_rate+beta))^infperiod_shape) *
   (((ave_community_size-1)*(1-rate_within)*rate_within + 

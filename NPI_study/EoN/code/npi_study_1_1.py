@@ -31,7 +31,11 @@ from itertools import product
 from datetime import date
 from statistics import mean
 
-effects = [[1, 60, 0.04, 0, 500],
+effects = [[1, 40, 0.04, 0, 500],
+           [1, 40, 0.04, 0.2, 500],
+           [1, 40, 0.04, 0.4, 500],
+           [1, 40, 0.04, 0.6, 500],
+           [1, 60, 0.04, 0, 500],
            [1, 60, 0.04, 0.2, 500],
            [1, 60, 0.04, 0.4, 500],
            [1, 60, 0.04, 0.6, 500]]
@@ -42,7 +46,7 @@ for effect in effects:
     np.random.seed(0)
     
     # Number of simulated trials ---------------------------------------------------
-    nsim = 100
+    nsim = 300
     
     # Directory to save results ----------------------------------------------------
     directory_plots = "/Users/jsheen/SW-CRT-outbreak/NPI_study/EoN/code_output/csvs_1_1/"
